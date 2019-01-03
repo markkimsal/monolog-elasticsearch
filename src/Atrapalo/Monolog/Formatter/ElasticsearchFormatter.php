@@ -19,7 +19,7 @@ class ElasticsearchFormatter extends NormalizerFormatter
 
     public function __construct($index, $type)
     {
-        parent::__construct(DateTime::ISO8601);
+        parent::__construct('U.u');
 
         $this->index = $index;
         $this->type = $type;
@@ -28,6 +28,7 @@ class ElasticsearchFormatter extends NormalizerFormatter
     public function format(array $record)
     {
         $record = parent::format($record);
+        $record['datetime'] = (int)round($record['datetime']*1000);
 
         return [
             'type'      => $this->type,
